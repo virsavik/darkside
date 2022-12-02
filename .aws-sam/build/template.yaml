@@ -1,0 +1,53 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'darkside
+
+  Simple app for take note
+
+  '
+Globals:
+  Function:
+    Timeout: 5
+Parameters:
+  Stage:
+    Type: String
+    Default: Dev
+  Region:
+    Type: String
+    Default: localhost
+  Host:
+    Type: String
+    Default: localstack.cloud:4566
+Resources:
+  ServerlessRestApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName:
+        Ref: Stage
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: HelloWorldFunction
+      Handler: hello-world
+      Runtime: go1.x
+      Architectures:
+      - x86_64
+      Events:
+        CatchAll:
+          Type: Api
+          Properties:
+            Path: /hello
+            RestApiId:
+              Ref: ServerlessRestApi
+            Method: GET
+      Environment:
+        Variables:
+          PARAM1: VALUE
+    Metadata:
+      SamResourceId: HelloWorldFunction
+Outputs:
+  ServerlessRestAPI:
+    Description:
+      Fn::Sub: API Gateway endpoint URL for ${Stage} environment
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${Region}.${Host}/${Stage}/

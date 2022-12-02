@@ -1,0 +1,11 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "darkside-dev"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-d50e64ae"
+s3_prefix = "darkside-dev"
+region = "ap-southeast-1"
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "Stage=\"Dev\" Region=\"localhost\" Host=\"localstack.cloud:4566\""
+image_repositories = []
